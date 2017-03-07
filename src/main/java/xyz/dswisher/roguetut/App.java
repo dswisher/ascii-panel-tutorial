@@ -5,6 +5,8 @@ import asciiPanel.AsciiPanel;
 import xyz.dswisher.roguetut.screens.Screen;
 import xyz.dswisher.roguetut.screens.StartScreen;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -46,6 +48,11 @@ public class App extends JFrame implements KeyListener
     public static void main( String[] args ) {
         App app = new App();
         app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Center
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        app.setLocation(dim.width / 2 - app.getSize().width / 2, dim.height / 2 - app.getSize().height / 2);
+
         app.setVisible(true);
     }
 }
