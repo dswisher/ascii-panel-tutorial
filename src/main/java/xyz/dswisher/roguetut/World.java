@@ -31,4 +31,24 @@ public class World {
     public Color color(int x, int y) {  // TODO - change to getColor()
         return tile(x, y).color();
     }
+
+    public void dig(int x, int y) {
+        if (tile(x,y).isDiggable()) {
+            tiles[x][y] = Tile.FLOOR;
+        }
+    }
+
+    public void addAtEmptyLocation(Creature creature) {
+        int x;
+        int y;
+
+        do {
+            x = (int)(Math.random() * width);
+            y = (int)(Math.random() * height);
+        } while (!tile(x,y).isGround());
+
+        creature.x = x;
+        creature.y = y;
+    }
 }
+
