@@ -30,6 +30,24 @@ public class Creature {
     }
 
     public void moveBy(int mx, int my) {
-        ai.onEnter(x + mx, y + my, world.tile(x + mx, y + my));
+        Creature other = world.creature(x + mx, y + my);
+
+        if (other == null) {
+            ai.onEnter(x + mx, y + my, world.tile(x + mx, y + my));
+        } else {
+            attack(other);
+        }
+    }
+
+    public void attack(Creature other) {
+        world.remove(other);
+    }
+
+    public void update() {
+        ai.onUpdate();
+    }
+
+    public boolean canEnter(int wx, int wy) {
+        return world.tile(wx, wy).isGround() && world.creature(wx, wy) == null;
     }
 }
