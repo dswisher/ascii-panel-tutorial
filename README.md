@@ -8,6 +8,7 @@
 * [Part 04](http://trystans.blogspot.com.br/2011/08/roguelike-tutorial-04-player.html) - the player
 * [Part 05](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-05-stationary.html) - stationary monsters
 * [Part 06](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-06-hitpoints-combat.html) - hitpoints, combat and messages
+* [Part 07](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-07-z-levels-and.html) - z levels and deeper caves
 
 ## Possibly Useful Links ##
 
