@@ -34,11 +34,13 @@ public class World {
     }
 
     public char glyph(int x, int y, int z) {   // TODO - change to getGlyph()
-        return tile(x, y, z).glyph();
+        Creature creature = creature(x, y, z);
+        return creature != null ? creature.glyph() : tile(x, y, z).glyph();
     }
 
     public Color color(int x, int y, int z) {  // TODO - change to getColor()
-        return tile(x, y, z).color();
+        Creature creature = creature(x, y, z);
+        return creature != null ? creature.color() : tile(x, y, z).color();
     }
 
     public void dig(int x, int y, int z) {
@@ -108,9 +110,7 @@ public class World {
     public void update() {
         List<Creature> toUpdate = new ArrayList<>(creatures);
 
-        for (Creature creature : toUpdate) {
-            creature.update();
-        }
+        toUpdate.forEach(Creature::update);
     }
 }
 

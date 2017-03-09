@@ -3,9 +3,11 @@ package xyz.dswisher.roguetut.screens;
 import asciiPanel.AsciiPanel;
 import xyz.dswisher.roguetut.Creature;
 import xyz.dswisher.roguetut.CreatureFactory;
+import xyz.dswisher.roguetut.FieldOfView;
 import xyz.dswisher.roguetut.World;
 import xyz.dswisher.roguetut.WorldBuilder;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class PlayScreen implements Screen {
     private int screenWidth;
     private int screenHeight;
     private List<String> messages;
+    private FieldOfView fov;
 
     public PlayScreen() {
         screenWidth = 80;
@@ -23,7 +26,9 @@ public class PlayScreen implements Screen {
         messages = new ArrayList<>();
         createWorld();
 
-        CreatureFactory creatureFactory = new CreatureFactory(world);
+        fov = new FieldOfView(world);
+
+        CreatureFactory creatureFactory = new CreatureFactory(world, fov);
         createCreatures(creatureFactory);
     }
 
@@ -52,17 +57,17 @@ public class PlayScreen implements Screen {
     }
 
     private void displayTiles(AsciiPanel terminal, int left, int top) {
-        for (int x = 0; x < screenWidth; x++) {
-            for (int y = 0; y < screenHeight; y++) {
+        fov.update(player.x, player.y, player.z, player.visionRadius());
+
+        for (int x = 0; x < screenWidth; x++){
+            for (int y = 0; y < screenHeight; y++){
                 int wx = x + left;
                 int wy = y + top;
 
-                Creature creature = world.creature(wx, wy, player.z);
-                if (creature != null) {
-                    terminal.write(creature.glyph(), creature.x - left, creature.y - top, creature.color());
-                } else {
+                if (player.canSee(wx, wy, player.z))
                     terminal.write(world.glyph(wx, wy, player.z), x, y, world.color(wx, wy, player.z));
-                }
+                else
+                    terminal.write(fov.tile(wx, wy, player.z).glyph(), x, y, Color.darkGray);
             }
         }
     }
@@ -99,13 +104,13 @@ public class PlayScreen implements Screen {
 
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_H:
-            case KeyEvent.VK_NUMPAD6:
+            case KeyEvent.VK_NUMPAD4:
                 player.moveBy(-1, 0, 0);
                 break;
 
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_L:
-            case KeyEvent.VK_NUMPAD4:
+            case KeyEvent.VK_NUMPAD6:
                 player.moveBy(1, 0, 0);
                 break;
 

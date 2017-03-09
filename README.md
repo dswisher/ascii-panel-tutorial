@@ -10,6 +10,7 @@
 * [Part 06](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-06-hitpoints-combat.html) - hitpoints, combat and messages
 * [Part 07](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-07-z-levels-and.html) - z levels and deeper caves
 * [Part 08](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-08-vision-line-of.html) - vision, line of sight and field of view
+* [Part 09](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-09-wandering.html) - wandering monsters
 
 ## Possibly Useful Links ##
 

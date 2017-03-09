@@ -6,15 +6,17 @@ import java.util.List;
 
 public class CreatureFactory {
     private World world;
+    private FieldOfView fov;
 
-    public CreatureFactory(World world) {
+    public CreatureFactory(World world, FieldOfView fov) {
         this.world = world;
+        this.fov = fov;
     }
 
     public Creature newPlayer(List<String> messages, int z) {
         Creature player = new Creature(world, '@', AsciiPanel.brightWhite, 100, 20, 5);
         world.addAtEmptyLocation(player, z);
-        new PlayerAi(player, messages);
+        new PlayerAi(player, messages, fov);
         return player;
     }
 
