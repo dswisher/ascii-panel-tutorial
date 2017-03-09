@@ -11,16 +11,16 @@ public class CreatureFactory {
         this.world = world;
     }
 
-    public Creature newPlayer(List<String> messages) {
+    public Creature newPlayer(List<String> messages, int z) {
         Creature player = new Creature(world, '@', AsciiPanel.brightWhite, 100, 20, 5);
-        world.addAtEmptyLocation(player);
+        world.addAtEmptyLocation(player, z);
         new PlayerAi(player, messages);
         return player;
     }
 
-    public Creature newFungus() {
+    public Creature newFungus(int z) {
         Creature fungus = new Creature(world, 'f', AsciiPanel.green, 10, 0, 0);
-        world.addAtEmptyLocation(fungus);
+        world.addAtEmptyLocation(fungus, z);
         new FungusAi(fungus, this);
         return fungus;
     }

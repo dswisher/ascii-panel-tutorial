@@ -11,12 +11,13 @@ public class PlayerAi extends CreatureAi {
         this.messages = messages;
     }
 
-    public void onEnter(int x, int y, Tile tile) {
+    public void onEnter(int x, int y, int z, Tile tile) {
         if (tile.isGround()) {
             creature.x = x;
             creature.y = y;
+            creature.z = z;
         } else if (tile.isDiggable()) {
-            creature.dig(x, y);
+            creature.dig(x, y, z);
         }
     }
 
