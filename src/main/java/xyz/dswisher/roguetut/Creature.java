@@ -30,8 +30,11 @@ public class Creature {
     private int visionRadius;
     public int visionRadius() { return visionRadius; }  // TODO - rename
 
+    private String name;
+    public String name() { return name; }   // TODO - rename
 
-    public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense) {
+
+    public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense, String name) {
         this.world = world;
         this.glyph = glyph;
         this.color = color;
@@ -40,6 +43,7 @@ public class Creature {
         this.attackValue = attack;
         this.defenseValue = defense;
         this.visionRadius = 9;
+        this.name = name;
     }
 
     private CreatureAi ai;
@@ -52,6 +56,10 @@ public class Creature {
     }
 
     public void moveBy(int mx, int my, int mz) {
+        if (mx==0 && my==0 && mz==0) {
+            return;
+        }
+
         Tile tile = world.tile(x+mx, y+my, z+mz);
 
         if (mz == -1){
@@ -153,5 +161,9 @@ public class Creature {
 
     public Tile tile(int wx, int wy, int wz) {
         return world.tile(wx, wy, wz);
+    }
+
+    public Creature creature(int wx, int wy, int wz) {
+        return world.creature(wx, wy, wz);
     }
 }

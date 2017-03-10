@@ -8,7 +8,6 @@ public class CreatureAi {
         this.creature.setCreatureAi(this);
     }
 
-    public void onEnter(int x, int y, int z, Tile tile) { }
     public void onUpdate() { }
     public void onNotify(String message) { }
 
@@ -31,4 +30,26 @@ public class CreatureAi {
 
         return true;
     }
+
+    public void onEnter(int x, int y, int z, Tile tile) {
+        if (tile.isGround()){
+            creature.x = x;
+            creature.y = y;
+            creature.z = z;
+        } else {
+            creature.doAction("bump into a wall");
+        }
+    }
+
+    public void wander(){
+        int mx = (int)(Math.random() * 3) - 1;
+        int my = (int)(Math.random() * 3) - 1;
+
+        Creature other = creature.creature(creature.x + mx, creature.y + my, creature.z);
+
+        if (other == null || other.glyph() != creature.glyph()) {
+            creature.moveBy(mx, my, 0);
+        }
+    }
 }
+
