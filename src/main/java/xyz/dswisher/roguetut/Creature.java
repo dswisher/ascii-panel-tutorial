@@ -33,6 +33,8 @@ public class Creature {
     private String name;
     public String name() { return name; }   // TODO - rename
 
+    private Inventory inventory;
+    public Inventory inventory() { return inventory; }
 
     public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense, String name) {
         this.world = world;
@@ -44,6 +46,7 @@ public class Creature {
         this.defenseValue = defense;
         this.visionRadius = 9;
         this.name = name;
+        this.inventory = new Inventory(20);
     }
 
     private CreatureAi ai;
@@ -94,7 +97,7 @@ public class Creature {
 
         other.modifyHp(-amount);
 
-        doAction("attack the '%s' for %d damage", other.glyph, amount);
+        doAction("attack the %s for %d damage", other.name(), amount);
     }
 
     public void doAction(String message, Object ... params) {
@@ -114,7 +117,7 @@ public class Creature {
                 if (other == this) {
                     other.notify("You " + message + ".", params);
                 } else if (other.canSee(x, y, z)) {
-                    other.notify(String.format("The '%s' %s.", glyph, makeSecondPerson(message)), params);
+                    other.notify(String.format("The %s %s.", name(), makeSecondPerson(message)), params);
                 }
             }
         }
@@ -165,5 +168,26 @@ public class Creature {
 
     public Creature creature(int wx, int wy, int wz) {
         return world.creature(wx, wy, wz);
+    }
+
+    public void pickup() {
+        Item item = world.item(x, y, z);
+
+        if (inventory.isFull() || item == null){
+            doAction("grab at the ground");
+        } else {
+            doAction("pickup a %s", item.name());
+            world.remove(x, y, z);
+            inventory.add(item);
+        }
+    }
+
+    public void drop(Item item) {
+        if (world.addAtEmptySpace(item, x, y, z)) {
+            doAction("drop a " + item.name());
+            inventory.remove(item);
+        } else {
+            notify("There's nowhere to drop the %s.", item.name());
+        }
     }
 }

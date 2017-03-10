@@ -6,6 +6,7 @@ import java.util.List;
 
 public class World {
     private Tile[][][] tiles;
+    private Item[][][] items;
     private int width;
     public int width() { return width; }    // TODO - change to getWidth()
 
@@ -22,6 +23,7 @@ public class World {
         this.width = tiles.length;
         this.height = tiles[0].length;
         this.depth = tiles[0][0].length;
+        this.items = new Item[width][height][depth];
         this.creatures = new ArrayList<>();
     }
 
@@ -35,12 +37,30 @@ public class World {
 
     public char glyph(int x, int y, int z) {   // TODO - change to getGlyph()
         Creature creature = creature(x, y, z);
-        return creature != null ? creature.glyph() : tile(x, y, z).glyph();
+        if (creature != null) {
+            return creature.glyph();
+        }
+
+        Item item = item(x,y,z);
+        if (item != null) {
+            return item.glyph();
+        }
+
+        return tile(x, y, z).glyph();
     }
 
     public Color color(int x, int y, int z) {  // TODO - change to getColor()
         Creature creature = creature(x, y, z);
-        return creature != null ? creature.color() : tile(x, y, z).color();
+        if (creature != null) {
+            return creature.color();
+        }
+
+        Item item = item(x, y, z);
+        if (item != null) {
+            return item.color();
+        }
+
+        return tile(x, y, z).color();
     }
 
     public void dig(int x, int y, int z) {
@@ -93,6 +113,18 @@ public class World {
         creatures.add(creature);
     }
 
+    public void addAtEmptyLocation(Item item, int z) {
+        int x;
+        int y;
+
+        do {
+            x = (int)(Math.random() * width);
+            y = (int)(Math.random() * height);
+        } while (!tile(x,y,z).isGround() || item(x,y,z) != null);
+
+        items[x][y][z] = item;
+    }
+
     public Creature creature(int x, int y, int z) {
         for (Creature c : creatures) {
             if (c.x == x && c.y == y && c.z == z) {
@@ -103,14 +135,55 @@ public class World {
         return null;
     }
 
+    public boolean addAtEmptySpace(Item item, int x, int y, int z){
+        if (item == null) {
+            return false;
+        }
+
+        List<Point> points = new ArrayList<>();
+        List<Point> checked = new ArrayList<>();
+
+        points.add(new Point(x, y, z));
+
+        while (!points.isEmpty()){
+            Point p = points.remove(0);
+            checked.add(p);
+
+            if (!tile(p.x, p.y, p.z).isGround())
+                continue;
+
+            if (items[p.x][p.y][p.z] == null){
+                items[p.x][p.y][p.z] = item;
+                Creature c = this.creature(p.x, p.y, p.z);
+                if (c != null) {
+                    c.notify("A %s lands between your feet.", item.name());
+                }
+                return true;
+            } else {
+                List<Point> neighbors = p.neighbors8();
+                neighbors.removeAll(checked);
+                points.addAll(neighbors);
+            }
+        }
+        return false;
+    }
+
     public void remove(Creature other) {
         creatures.remove(other);
+    }
+
+    public void remove(int x, int y, int z) {
+        items[x][y][z] = null;
     }
 
     public void update() {
         List<Creature> toUpdate = new ArrayList<>(creatures);
 
         toUpdate.forEach(Creature::update);
+    }
+
+    public Item item(int x, int y, int z) {
+        return items[x][y][z];
     }
 }
 

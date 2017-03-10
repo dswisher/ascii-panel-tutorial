@@ -12,6 +12,7 @@
 * [Part 08](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-08-vision-line-of.html) - vision, line of sight and field of view
 * [Part 09](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-09-wandering.html) - wandering monsters
 * [Part 10](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-10-items-inventory.html) - items, inventory, inventory screens
+* [Part 11](http://trystans.blogspot.com.br/2011/09/roguelike-tutorial-11-hunger-and-food.html) - hunger and food
 
 ## Possibly Useful Links ##
 
