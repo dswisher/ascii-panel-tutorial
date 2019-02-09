@@ -190,8 +190,8 @@ public class WorldBuilder {
     }
 
     private WorldBuilder addExitStairs() {
-        int x = -1;
-        int y = -1;
+        int x;
+        int y;
 
         do {
             x = (int)(Math.random() * width);

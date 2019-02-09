@@ -40,7 +40,7 @@ public abstract class InventoryBasedScreen implements Screen {
     }
 
     private ArrayList<String> getList() {
-        ArrayList<String> lines = new ArrayList<String>();
+        ArrayList<String> lines = new ArrayList<>();
         Item[] inventory = player.inventory().getItems();
 
         for (int i = 0; i < inventory.length; i++){
